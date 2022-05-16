@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "992564686319",
+    "project_id": "ngobrol-app-60e66",
+    "storage_bucket": "ngobrol-app-60e66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992564686319:android:4d5131ca001e94d8101a1a",
+        "android_client_info": {
+          "package_name": "com.ngobrolapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992564686319-goddnbt6fh81q95ce4ju8ci6v4g9uf0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ngobrolapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "992564686319-re01k9jqdqocdqa0rd034g0il0vcbg46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaVWR5EyKBFGHYcx4FkvIsbNBlGvBKgds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992564686319-re01k9jqdqocdqa0rd034g0il0vcbg46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
