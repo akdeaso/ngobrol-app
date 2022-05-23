@@ -76,7 +76,7 @@ const Login = () => {
         Alert.alert('Invalid user, please try again');
       }
       if (error.code === 'auth/invalid-email') {
-        Alert.alert('Email is not valid');
+        Alert.alert('Sign in failed', 'Email is not valid');
       }
     } finally {
       setLoading(false);
@@ -101,11 +101,13 @@ const Login = () => {
           <Input
             placeholder="Email"
             onChangeText={text => handlingUserState('email', text)}
+            leftIcon={{type: 'feather', name: 'mail'}}
           />
           <Input
             placeholder="Password"
             secureTextEntry={showPassword}
             onChangeText={text => handlingUserState('password', text)}
+            leftIcon={{type: 'feather', name: 'lock'}}
             rightIcon={() => {
               return (
                 <TouchableOpacity

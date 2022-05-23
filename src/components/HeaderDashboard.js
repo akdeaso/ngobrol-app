@@ -24,7 +24,7 @@ const HeaderDashboard = ({callback = () => {}}) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Feather name="search" color="white" size={ms(24)} />
+        {/* <Feather name="search" color="white" size={ms(24)} /> */}
         <Text style={styles.title}>Messages</Text>
         <TouchableOpacity onPress={logout}>
           <Avatar
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: ms(20),
+    fontSize: ms(18),
   },
   body: {
     height: ms(120),

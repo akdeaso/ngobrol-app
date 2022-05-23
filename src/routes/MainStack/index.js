@@ -1,13 +1,36 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import screens from '../../screens';
+import auth from '@react-native-firebase/auth';
 
 const Stack = createStackNavigator();
 
-export default function MainStack() {
+const MainStack = () => {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, [onAuthStateChanged]);
+
+  const onAuthStateChanged = useCallback(
+    userData => {
+      setUser(userData);
+      if (initializing) {
+        setInitializing(false);
+      }
+    },
+    [initializing],
+  );
+
+  if (initializing) {
+    return null;
+  }
+
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName={user ? 'Home' : 'Login'}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={screens.Login} />
       <Stack.Screen name="Register" component={screens.Register} />
@@ -15,4 +38,6 @@ export default function MainStack() {
       <Stack.Screen name="Chat" component={screens.Chat} />
     </Stack.Navigator>
   );
-}
+};
+
+export default MainStack;

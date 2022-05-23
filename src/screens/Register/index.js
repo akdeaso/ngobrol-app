@@ -117,15 +117,18 @@ const Register = () => {
           <Input
             placeholder="Name"
             onChangeText={text => handlingUserState('name', text)}
+            leftIcon={{type: 'feather', name: 'user'}}
           />
           <Input
             placeholder="Email"
             onChangeText={text => handlingUserState('email', text)}
+            leftIcon={{type: 'feather', name: 'mail'}}
           />
           <Input
             placeholder="Password"
             secureTextEntry={showPassword}
             onChangeText={text => handlingUserState('password', text)}
+            leftIcon={{type: 'feather', name: 'lock'}}
             rightIcon={() => {
               return (
                 <TouchableOpacity
@@ -144,6 +147,7 @@ const Register = () => {
             placeholder="Confirm Password"
             secureTextEntry={showConfirmPassword}
             onChangeText={text => handlingUserState('confirmPassword', text)}
+            leftIcon={{type: 'feather', name: 'lock'}}
             rightIcon={() => {
               return (
                 <TouchableOpacity

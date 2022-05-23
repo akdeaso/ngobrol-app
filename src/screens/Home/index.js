@@ -76,7 +76,7 @@ const Home = () => {
             />
           </View>
           <View style={styles.info}>
-            <Text style={styles.text}>{name}</Text>
+            <Text style={styles.userName}>{name}</Text>
             <Text style={styles.text}>{email}</Text>
           </View>
         </View>
@@ -137,6 +137,11 @@ const styles = StyleSheet.create({
   },
   info: {
     marginLeft: ms(20),
+  },
+  userName: {
+    fontWeight: '700',
+    color: 'black',
+    fontSize: ms(15),
   },
   text: {
     color: 'black',
