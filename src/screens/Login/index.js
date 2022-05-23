@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useState} from 'react';
@@ -14,12 +15,23 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import LoginImage from '../../assets/images/img_login.png';
+import LoadingScreen from '../../components/Loading';
 import {Button, Input} from '@rneui/base';
 import Feather from 'react-native-vector-icons/Feather';
 import {ms} from 'react-native-size-matters';
+import {DB} from '../../helpers/db';
+import authProvider from '@react-native-firebase/auth';
+import messagingProvider from '@react-native-firebase/messaging';
+import {useDispatch} from 'react-redux';
+import {setDataUser} from './redux/action';
+
+const auth = authProvider();
+const messaging = messagingProvider();
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(true);
+  const [Loading, setLoading] = useState(false);
   const [userState, setUserState] = useState({
     email: '',
     password: '',
@@ -33,6 +45,48 @@ const Login = () => {
       };
     });
   };
+
+  const onLogin = async () => {
+    try {
+      setLoading(true);
+      const res = await auth.signInWithEmailAndPassword(
+        userState.email,
+        userState.password,
+      );
+
+      const token = await messaging.getToken();
+
+      if (token) {
+        let isUpdate = false;
+        await DB.ref(`users/${res.user.uid}`).update({
+          notifToken: token,
+        });
+        isUpdate = true;
+
+        if (isUpdate) {
+          const results = await DB.ref(`users/${res.user.uid}`).once('value');
+          if (results.val()) {
+            dispatch(setDataUser(results.val()));
+            navigate('Home');
+          }
+        }
+      }
+    } catch (error) {
+      if (error.code === 'auth/user-not-found') {
+        Alert.alert('Invalid user, please try again');
+      }
+      if (error.code === 'auth/invalid-email') {
+        Alert.alert('Email is not valid');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (Loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollview}>
@@ -72,6 +126,7 @@ const Login = () => {
             title={'Sign In'}
             containerStyle={styles.loginButton}
             buttonStyle={{backgroundColor: '#00BF92'}}
+            onPress={() => onLogin()}
           />
           <View style={styles.registerContainer}>
             <Text>New user? </Text>

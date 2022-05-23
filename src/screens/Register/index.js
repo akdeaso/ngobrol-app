@@ -16,12 +16,23 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import LoadingScreen from '../../components/Loading';
+import authProvider from '@react-native-firebase/auth';
+import messagingProvider from '@react-native-firebase/messaging';
 import {navigate} from '../../helpers/navigation';
+import {DB} from '../../helpers/db';
+import {useDispatch} from 'react-redux';
+import {setDataUser} from '../Login/redux/action';
+
+const auth = authProvider();
+const messaging = messagingProvider();
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(true);
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
   const [disable, setDisable] = useState(false);
+  const [Loading, setLoading] = useState(false);
   const [userState, setUserState] = useState({
     name: '',
     email: '',
@@ -47,9 +58,50 @@ const Register = () => {
     });
   };
 
+  const onRegister = async () => {
+    try {
+      setLoading(true);
+      const res = await auth.createUserWithEmailAndPassword(
+        userState.email,
+        userState.password,
+      );
+      console.log(res);
+      if ('email' in res.user && res.user.email) {
+        await auth.currentUser.updateProfile({
+          displayName: userState.name,
+        });
+        const token = await messaging.getToken();
+
+        if (token) {
+          const payload = {
+            displayName: userState.name,
+            email: res.user.email,
+            phoneNumber: res.user.phoneNumber,
+            photoURL: res.user.photoURL,
+            contact: [],
+            roomChat: [],
+            _id: res.user.uid,
+            notifToken: token,
+          };
+          await DB.ref(`users/${res.user.uid}`).set(payload);
+          dispatch(setDataUser(payload));
+          navigate('Login');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     validateButton();
   }, [validateButton]);
+
+  if (Loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <SafeAreaView flex={1}>
@@ -112,6 +164,8 @@ const Register = () => {
             disabled={disable}
             title="Sign Up"
             containerStyle={styles.registerButton}
+            buttonStyle={{backgroundColor: '#00BF92'}}
+            onPress={() => onRegister()}
           />
           <View style={styles.loginContainer}>
             <Text>Already have an account? </Text>

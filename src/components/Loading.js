@@ -1,10 +1,11 @@
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import React from 'react';
+import {ms} from 'react-native-size-matters';
 
 const LoadingScreen = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator color="#00BF92" size={moderateScale(35)} />
+      <ActivityIndicator color="#00BF92" size={ms(35)} />
     </View>
   );
 };
