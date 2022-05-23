@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React, {useState} from 'react';
@@ -12,6 +13,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import LoginImage from '../../assets/images/img_login.png';
 import {Button, Input} from '@rneui/base';
 import Feather from 'react-native-vector-icons/Feather';
 import {ms} from 'react-native-size-matters';
@@ -34,6 +36,13 @@ const Login = () => {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollview}>
+        <View style={styles.imgContainer}>
+          <Image
+            source={LoginImage}
+            style={styles.topImage}
+            resizeMode="contain"
+          />
+        </View>
         <View style={styles.inputContainer}>
           <Input
             placeholder="Email"
@@ -59,7 +68,11 @@ const Login = () => {
           />
         </View>
         <View>
-          <Button title={'Sign In'} containerStyle={styles.loginButton} />
+          <Button
+            title={'Sign In'}
+            containerStyle={styles.loginButton}
+            buttonStyle={{backgroundColor: '#00BF92'}}
+          />
           <View style={styles.registerContainer}>
             <Text>New user? </Text>
             <TouchableOpacity onPress={() => navigate('Register')}>
@@ -81,7 +94,6 @@ const styles = StyleSheet.create({
     marginBottom: heightPercentageToDP(2),
   },
   inputContainer: {
-    marginTop: heightPercentageToDP(30),
     alignItems: 'center',
   },
   loginButton: {
@@ -95,5 +107,13 @@ const styles = StyleSheet.create({
   },
   registerText: {
     color: 'blue',
+  },
+  imgContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  topImage: {
+    width: widthPercentageToDP(90),
+    height: ms(300),
   },
 });

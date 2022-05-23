@@ -4,11 +4,13 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Button, Input} from '@rneui/base';
 import Feather from 'react-native-vector-icons/Feather';
+import RegisterImage from '../../assets/images/img_register.png';
 import {ms} from 'react-native-size-matters';
 import {
   heightPercentageToDP,
@@ -52,6 +54,13 @@ const Register = () => {
   return (
     <SafeAreaView flex={1}>
       <ScrollView contentContainerStyle={styles.scrollview}>
+        <View style={styles.imgContainer}>
+          <Image
+            source={RegisterImage}
+            style={styles.topImage}
+            resizeMode="contain"
+          />
+        </View>
         <View style={styles.inputContainer}>
           <Input
             placeholder="Name"
@@ -125,7 +134,6 @@ const styles = StyleSheet.create({
     marginBottom: heightPercentageToDP(2),
   },
   inputContainer: {
-    marginTop: heightPercentageToDP(30),
     alignItems: 'center',
   },
   registerButton: {
@@ -139,5 +147,14 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: 'blue',
+  },
+  imgContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  topImage: {
+    width: widthPercentageToDP(100),
+    height: ms(170),
   },
 });
